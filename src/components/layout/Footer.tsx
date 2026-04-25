@@ -5,22 +5,22 @@ export default function Footer() {
   return (
     <footer className="bg-brand-royal text-brand-ivory pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand Info */}
-          <div className="col-span-1 md:col-span-2">
+          <div className="sm:col-span-2 lg:col-span-2">
             <h3 className="font-serif text-2xl mb-4 italic">Cee Hatinators</h3>
             <p className="text-brand-lavender text-sm leading-relaxed max-w-sm mb-6">
               Bespoke headpieces and elegant fascinators crafted for the contemporary woman. Join the rotation of style and millinery excellence.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="hover:text-brand-pink transition-colors"><Instagram size={20} /></a>
-              <a href="#" className="hover:text-brand-pink transition-colors"><Facebook size={20} /></a>
-              <a href="#" className="hover:text-brand-pink transition-colors"><Twitter size={20} /></a>
+              <a href="#" className="hover:text-brand-crimson transition-colors"><Instagram size={20} /></a>
+              <a href="#" className="hover:text-brand-crimson transition-colors"><Facebook size={20} /></a>
+              <a href="#" className="hover:text-brand-crimson transition-colors"><Twitter size={20} /></a>
             </div>
           </div>
 
           {/* Quick Links */}
-          <div>
+          <div className="sm:col-span-1">
             <h4 className="font-medium text-sm mb-4 uppercase tracking-widest">Client Concierge</h4>
             <ul className="space-y-3 text-sm text-brand-lavender">
               <li><Link to="/contact" className="hover:text-brand-ivory transition-colors">Contact Us</Link></li>
@@ -31,11 +31,11 @@ export default function Footer() {
           </div>
 
           {/* Contact */}
-          <div>
+          <div className="sm:col-span-1">
             <h4 className="font-medium text-sm mb-4 uppercase tracking-widest">Boutique</h4>
-            <ul className="space-y-3 text-sm text-brand-lavender">
+            <ul className="space-y-3 text-sm text-brand-lavender break-words">
               <li>Sandton, South Africa</li>
-              <li>Email: concierge@ceehatinators.com</li>
+              <li>Email: <a href="mailto:concierge@ceehatinators.com" className="hover:text-brand-ivory transition-all">concierge@ceehatinators.com</a></li>
               <li>WhatsApp: +27 12 345 6789</li>
             </ul>
           </div>
