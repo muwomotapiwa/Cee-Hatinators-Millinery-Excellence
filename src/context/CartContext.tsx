@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { CartItem, Product } from '../types';
+import { useFlash } from './FlashContext';
 
 interface CartContextType {
   cart: CartItem[];
@@ -14,6 +15,7 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { flash } = useFlash();
   const [cart, setCart] = useState<CartItem[]>(() => {
     const saved = localStorage.getItem('cee_cart');
     return saved ? JSON.parse(saved) : [];
@@ -27,18 +29,26 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCart(prev => {
       const existing = prev.find(item => item.id === product.id && item.variant === variant);
       if (existing) {
+        flash(`Updated ${product.name} quantity`);
         return prev.map(item => 
           (item.id === product.id && item.variant === variant) 
             ? { ...item, qty: item.qty + qty } 
             : item
         );
       }
+      flash(`Added ${product.name} to boutique bag`);
       return [...prev, { ...product, qty, variant }];
     });
   };
 
   const removeFromCart = (productId: string | number) => {
-    setCart(prev => prev.filter(item => item.id !== productId));
+    setCart(prev => {
+      const itemToRemove = prev.find(item => item.id === productId);
+      if (itemToRemove) {
+        flash(`Removed ${itemToRemove.name}`, 'info');
+      }
+      return prev.filter(item => item.id !== productId);
+    });
   };
 
   const updateQty = (productId: string | number, qty: number) => {

@@ -1,13 +1,16 @@
 import { motion } from 'motion/react';
 import { Ruler, Palette, Sparkles, Send, CheckCircle } from 'lucide-react';
 import { useState } from 'react';
+import { useFlash } from '../context/FlashContext';
 
 export default function Bespoke() {
+  const { flash } = useFlash();
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // In a real app, this would send data to the backend
+    flash("Bespoke request submitted successfully");
     setSubmitted(true);
   };
 
