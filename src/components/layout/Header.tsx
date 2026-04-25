@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import { ShoppingBag, Search, User, Heart, Menu } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useCart } from '../../context/CartContext';
 
 export default function Header() {
+  const { totalItems } = useCart();
+
   return (
     <header className="w-full">
       {/* Announcement Bar */}
@@ -40,7 +43,11 @@ export default function Header() {
               </Link>
               <Link to="/cart" className="p-1 hover:text-brand-crimson transition-colors relative">
                 <ShoppingBag size={20} />
-                <span className="absolute -top-1 -right-1 bg-brand-crimson text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-brand-crimson text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+                    {totalItems}
+                  </span>
+                )}
               </Link>
               <button className="md:hidden p-1">
                 <Menu size={24} />

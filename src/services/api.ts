@@ -3,6 +3,8 @@
  * This file handles all communication with the Flask/Supabase backend.
  */
 
+import { Product } from '../types';
+
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 interface RequestOptions extends RequestInit {
@@ -18,7 +20,7 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
     headers.set('Authorization', `Bearer ${token}`);
   }
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+  const response = await window.fetch(`${API_BASE_URL}${endpoint}`, {
     ...init,
     headers,
   });
@@ -39,10 +41,10 @@ export const api = {
     logout: () => request('/auth/logout', { method: 'POST' }),
   },
   products: {
-    getAll: (params: string = '') => request(`/products${params}`),
-    getOne: (slug: string) => request(`/products/${slug}`),
-    getRelated: (slug: string) => request(`/products/${slug}/related`),
-    getCategories: () => request('/categories'),
+    getAll: (params: string = '') => request<Product[]>(`/products${params}`),
+    getOne: (slug: string) => request<Product>(`/products/${slug}`),
+    getRelated: (slug: string) => request<Product[]>(`/products/${slug}/related`),
+    getCategories: () => request<any[]>('/categories'),
   },
   cart: {
     get: (token: string) => request('/cart', { token }),

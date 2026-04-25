@@ -2,12 +2,22 @@ import { useState } from 'react';
 import { motion } from 'motion/react';
 import { ShoppingBag, Heart, Check, ArrowLeft, Star, ChevronRight } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 
 export default function ProductDetail() {
   const { slug } = useParams();
+  const { addToCart } = useCart();
   const [selectedSize, setSelectedSize] = useState('Medium');
   const [activeTab, setActiveTab] = useState('description');
   const [mainImage, setMainImage] = useState("https://images.unsplash.com/photo-1621511210884-6fdf358b5be4?auto=format&fit=crop&q=80&w=1200");
+
+  const product = {
+    id: slug || 'aurora-pearl',
+    name: "The Aurora Pearl",
+    price: 3400,
+    category: "Fascinators",
+    image: "https://images.unsplash.com/photo-1621511210884-6fdf358b5be4?auto=format&fit=crop&q=80&w=800",
+  };
 
   const thumbs = [
     "https://images.unsplash.com/photo-1621511210884-6fdf358b5be4?auto=format&fit=crop&q=80&w=800",
@@ -80,7 +90,10 @@ export default function ProductDetail() {
             </div>
 
             <div className="flex space-x-4">
-              <button className="flex-grow bg-brand-crimson text-white py-5 text-xs font-bold uppercase tracking-widest hover:bg-brand-deep-red transition-all flex items-center justify-center">
+              <button 
+                onClick={() => addToCart(product, 1, selectedSize)}
+                className="flex-grow bg-brand-crimson text-white py-5 text-xs font-bold uppercase tracking-widest hover:bg-brand-deep-red transition-all flex items-center justify-center font-bold"
+              >
                 <ShoppingBag size={16} className="mr-3" />
                 Add to Boutique Bag
               </button>

@@ -1,18 +1,47 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Filter, ChevronDown, Heart, ShoppingBag } from 'lucide-react';
+import { useParams } from 'react-router-dom';
+import { api } from '../services/api';
+import { Product } from '../types';
+import { useCart } from '../context/CartContext';
 
 export default function Shop() {
-  const [selectedCategory, setSelectedCategory] = useState('All');
-
-  const products = [
+  const { category } = useParams();
+  const { addToCart } = useCart();
+  const [selectedCategory, setSelectedCategory] = useState(category || 'All');
+  const [products, setProducts] = useState<Product[]>([
     { id: 1, name: "The Aurora Pearl", price: "R3,400", category: "Fascinators", image: "https://images.unsplash.com/photo-1621511210884-6fdf358b5be4?auto=format&fit=crop&q=80&w=800" },
     { id: 2, name: "Midnight Gala Wide Brim", price: "R5,200", category: "Statement Hats", image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&q=80&w=800" },
     { id: 3, name: "Blush Gardenia Clip", price: "R1,800", category: "Headpieces", image: "https://images.unsplash.com/photo-1549444226-ee9669128004?auto=format&fit=crop&q=80&w=800" },
     { id: 4, name: "Royal Purple Pillbox", price: "R4,100", category: "Pillbox", image: "https://images.unsplash.com/photo-1544441893-675973e31d85?auto=format&fit=crop&q=80&w=800" },
     { id: 5, name: "Emerald Forest Veiled", price: "R2,900", category: "Fascinators", image: "https://images.unsplash.com/photo-1518835827776-35bd9d447477?auto=format&fit=crop&q=80&w=800" },
     { id: 6, name: "Pearl & Lace Headband", price: "R1,200", category: "Headpieces", image: "https://images.unsplash.com/photo-1450297350677-623de575f31c?auto=format&fit=crop&q=80&w=800" },
-  ];
+  ]);
+  useEffect(() => {
+    if (category) {
+      setSelectedCategory(category);
+    }
+  }, [category]);
+
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        // In a real app, this would fetch from the backend
+        // const data = await api.products.getAll();
+        // setProducts(data);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -58,7 +87,10 @@ export default function Shop() {
                 <button className="bg-white p-2 text-brand-royal hover:text-brand-crimson transition-colors shadow-sm">
                   <Heart size={18} />
                 </button>
-                <button className="bg-brand-royal p-2 text-white hover:bg-brand-crimson transition-colors shadow-sm">
+                <button 
+                  onClick={() => addToCart(product)}
+                  className="bg-brand-royal p-2 text-white hover:bg-brand-crimson transition-colors shadow-sm"
+                >
                   <ShoppingBag size={18} />
                 </button>
               </div>

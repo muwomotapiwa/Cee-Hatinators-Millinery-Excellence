@@ -15,6 +15,7 @@ import Signup from './pages/Signup';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
+import Bespoke from './pages/Bespoke';
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
             <Route path="/product/:slug" element={<ProductDetail />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/bespoke" element={<Bespoke />} />
             {/* Additional routes will be added here */}
           </Routes>
         </main>

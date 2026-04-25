@@ -1,15 +1,24 @@
 import { motion } from 'motion/react';
 import { ShoppingBag, Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 
 export default function Cart() {
-  const items = [
-    { id: 1, name: "The Aurora Pearl", price: 3400, qty: 1, variant: "Medium", image: "https://images.unsplash.com/photo-1621511210884-6fdf358b5be4?auto=format&fit=crop&q=80&w=400" },
-    { id: 2, name: "Midnight Gala Wide Brim", price: 5200, qty: 1, variant: "Bespoke", image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&q=80&w=400" },
-  ];
-
-  const subtotal = items.reduce((acc, item) => acc + (item.price * item.qty), 0);
+  const { cart, removeFromCart, updateQty, subtotal } = useCart();
   const shipping = subtotal > 2000 ? 0 : 250;
+
+  if (cart.length === 0) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
+        <ShoppingBag size={48} className="mx-auto text-brand-sage mb-6 opacity-20" />
+        <h1 className="text-3xl font-serif mb-4">Your Boutique Bag is Empty</h1>
+        <p className="text-brand-lavender italic mb-8">Discover our latest hatinators and statement pieces.</p>
+        <Link to="/shop" className="bg-brand-royal text-white px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-brand-crimson transition-all">
+          Explore the Collection
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -18,12 +27,12 @@ export default function Cart() {
         <div className="flex-grow">
           <div className="flex items-end justify-between border-b border-brand-sage pb-6 mb-10">
             <h1 className="text-4xl font-serif">Your Boutique Bag</h1>
-            <span className="text-xs uppercase tracking-widest text-brand-lavender font-bold">{items.length} Items</span>
+            <span className="text-xs uppercase tracking-widest text-brand-lavender font-bold">{cart.length} {cart.length === 1 ? 'Item' : 'Items'}</span>
           </div>
 
           <div className="space-y-10">
-            {items.map((item) => (
-              <div key={item.id} className="flex flex-col sm:flex-row items-center sm:items-start group border-b border-brand-sage/50 pb-10">
+            {cart.map((item) => (
+              <div key={`${item.id}-${item.variant}`} className="flex flex-col sm:flex-row items-center sm:items-start group border-b border-brand-sage/50 pb-10">
                 <div className="w-32 aspect-[3/4] bg-brand-ivory border border-brand-sage overflow-hidden flex-shrink-0 mb-4 sm:mb-0">
                   <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                 </div>
@@ -34,17 +43,32 @@ export default function Cart() {
                   
                   <div className="flex items-center justify-center sm:justify-start space-x-4 pt-4">
                     <div className="flex items-center border border-brand-sage">
-                      <button className="p-2 hover:text-brand-crimson transition-colors"><Minus size={14} /></button>
+                      <button 
+                        onClick={() => updateQty(item.id, item.qty - 1)}
+                        className="p-2 hover:text-brand-crimson transition-colors"
+                      >
+                        <Minus size={14} />
+                      </button>
                       <span className="px-4 text-sm font-bold min-w-[40px] text-center">{item.qty}</span>
-                      <button className="p-2 hover:text-brand-crimson transition-colors"><Plus size={14} /></button>
+                      <button 
+                        onClick={() => updateQty(item.id, item.qty + 1)}
+                        className="p-2 hover:text-brand-crimson transition-colors"
+                      >
+                        <Plus size={14} />
+                      </button>
                     </div>
-                    <button className="text-brand-lavender hover:text-brand-crimson p-2 transition-colors">
+                    <button 
+                      onClick={() => removeFromCart(item.id)}
+                      className="text-brand-lavender hover:text-brand-crimson p-2 transition-colors"
+                    >
                       <Trash2 size={16} />
                     </button>
                   </div>
                 </div>
                 <div className="sm:ml-12 pt-4 sm:pt-1">
-                  <span className="text-lg font-medium text-brand-wine tracking-tight">R{item.price.toLocaleString()}</span>
+                  <span className="text-lg font-medium text-brand-wine tracking-tight">
+                    {typeof item.price === 'number' ? `R${item.price.toLocaleString()}` : item.price}
+                  </span>
                 </div>
               </div>
             ))}
