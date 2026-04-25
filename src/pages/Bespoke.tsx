@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Ruler, Palette, Sparkles, Send, CheckCircle } from 'lucide-react';
-import { useState } from 'react';
 import { useFlash } from '../context/FlashContext';
 
 export default function Bespoke() {

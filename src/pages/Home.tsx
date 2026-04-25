@@ -32,17 +32,17 @@ export default function Home() {
             <p className="text-lg text-brand-ivory/90 mb-8 font-light leading-relaxed">
               Exquisite handmade fascinators and statement headwear designed to make an unforgettable impression at your next gala or event.
             </p>
-            <div className="flex space-x-4">
+            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 items-center sm:items-start">
               <Link 
                 to="/shop" 
-                className="bg-brand-crimson hover:bg-brand-deep-red text-white px-8 py-4 text-sm font-medium uppercase tracking-widest transition-all inline-flex items-center group"
+                className="bg-brand-crimson hover:bg-brand-deep-red text-white px-6 py-3 sm:px-8 sm:py-4 text-[10px] sm:text-sm font-medium uppercase tracking-widest transition-all inline-flex items-center group"
               >
                 Shop the Collection
-                <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform sm:w-4 sm:h-4" />
               </Link>
               <Link 
                 to="/bespoke" 
-                className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white border border-white/30 px-8 py-4 text-sm font-medium uppercase tracking-widest transition-all"
+                className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white border border-white/30 px-6 py-3 sm:px-8 sm:py-4 text-[10px] sm:text-sm font-medium uppercase tracking-widest transition-all"
               >
                 Bespoke Design
               </Link>
